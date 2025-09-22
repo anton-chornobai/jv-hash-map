@@ -3,10 +3,10 @@ package core.basesyntax;
 import java.util.LinkedList;
 
 public class MyHashMap<K, V> implements MyMap<K, V> {
-    private LinkedList<Node<K, V>>[] list;
-    private static  final  float LOAD_FACTOR = 0.75f;
-    private static  final  int INITIAL_CAPACITY = 16;
+    private static final float LOAD_FACTOR = 0.75f;
+    private static final int INITIAL_CAPACITY = 16;
 
+    private LinkedList<Node<K, V>>[] list;
     private int capacity;
     private int size = 0;
 
@@ -47,7 +47,7 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
         }
 
         for (Node<K, V> node : list[index]) {
-            if ((node.key == null && key == null) || (node.key.equals(key) && key != null)) {
+            if ((node.key == null && key == null) || (key != null && node.key.equals(key))) {
                 return node.value;
             }
         }
@@ -69,7 +69,6 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
                         if (newList[newIndex] == null) {
                             newList[newIndex] = new LinkedList<>();
                         }
-
                         newList[newIndex].add(node);
                     }
                 }
