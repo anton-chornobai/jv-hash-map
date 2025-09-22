@@ -3,9 +3,9 @@ package core.basesyntax;
 import java.util.LinkedList;
 
 public class MyHashMap<K, V> implements MyMap<K, V> {
-    LinkedList<Node<K, V>>[] list;
-    private static final int INITIAL_CAPACITY = 16;
-    private static final float LOAD_FACTOR = 0.75f;
+    private LinkedList<Node<K, V>>[] list;
+    private final static float LOAD_FACTOR = 0.75f;
+    private final static int INITIAL_CAPACITY = 16;
 
     private int capacity;
     private int size = 0;
@@ -22,7 +22,7 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
 
         Node<K, V> newEntry = new Node<>(key, value);
         int index = (key == null) ? 0 : Math.abs(key.hashCode()) % capacity;
-        
+
         if (list[index] == null) {
             list[index] = new LinkedList<>();
         }
@@ -58,12 +58,14 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
     private void extendCapacity() {
         if (size >= capacity * LOAD_FACTOR) {
             int newCapacity = capacity * 2;
-            LinkedList<Node<K, V>>[] newList = (LinkedList<Node<K, V>>[]) new LinkedList[newCapacity];
+            LinkedList<Node<K, V>>[] newList = new LinkedList[newCapacity];
 
             for (LinkedList<Node<K, V>> bucket : list) {
                 if (bucket != null) {
                     for (Node<K, V> node : bucket) {
-                        int newIndex = (node.key == null) ? 0 : Math.abs(node.key.hashCode()) % newCapacity;
+                        int newIndex = (node.key == null)
+                                ? 0
+                                : Math.abs(node.key.hashCode()) % newCapacity;
                         if (newList[newIndex] == null) {
                             newList[newIndex] = new LinkedList<>();
                         }
