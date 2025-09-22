@@ -5,6 +5,7 @@ import java.util.LinkedList;
 public class MyHashMap<K, V> implements MyMap<K, V> {
     private static final float LOAD_FACTOR = 0.75f;
     private static final int INITIAL_CAPACITY = 16;
+    private static final int RESIZE_MULTIPLIER = 2;
 
     private LinkedList<Node<K, V>>[] list;
     private int capacity;
@@ -20,7 +21,6 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
     public void put(K key, V value) {
         extendCapacity();
 
-        Node<K, V> newEntry = new Node<>(key, value);
         int index = (key == null) ? 0 : Math.abs(key.hashCode()) % capacity;
 
         if (list[index] == null) {
@@ -34,7 +34,7 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
             }
         }
 
-        list[index].add(newEntry);
+        list[index].add(new Node<>(key, value));
         size++;
     }
 
@@ -55,17 +55,21 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
         return null;
     }
 
+    @Override
+    public int getSize() {
+        return size;
+    }
+
+    // Private helper method should go after public ones
     private void extendCapacity() {
         if (size >= capacity * LOAD_FACTOR) {
-            int newCapacity = capacity * 2;
+            int newCapacity = capacity * RESIZE_MULTIPLIER;
             LinkedList<Node<K, V>>[] newList = new LinkedList[newCapacity];
 
             for (LinkedList<Node<K, V>> bucket : list) {
                 if (bucket != null) {
                     for (Node<K, V> node : bucket) {
-                        int newIndex = (node.key == null)
-                                ? 0
-                                : Math.abs(node.key.hashCode()) % newCapacity;
+                        int newIndex = (node.key == null) ? 0 : Math.abs(node.key.hashCode()) % newCapacity;
                         if (newList[newIndex] == null) {
                             newList[newIndex] = new LinkedList<>();
                         }
@@ -79,34 +83,13 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
         }
     }
 
-    @Override
-    public int getSize() {
-        return size;
-    }
-
-    public class Node<K, V> {
+    private class Node<K, V> {
         private K key;
         private V value;
 
-        public Node(K key, V value) {
+        private Node(K key, V value) {
             this.key = key;
             this.value = value;
-        }
-
-        public K getKey() {
-            return key;
-        }
-
-        public V getValue() {
-            return value;
-        }
-
-        public void setValue(V value) {
-            this.value = value;
-        }
-
-        public void setKey(K key) {
-            this.key = key;
         }
     }
 }
