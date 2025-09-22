@@ -69,7 +69,9 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
             for (LinkedList<Node<K, V>> bucket : list) {
                 if (bucket != null) {
                     for (Node<K, V> node : bucket) {
-                        int newIndex = (node.key == null) ? 0 : Math.abs(node.key.hashCode()) % newCapacity;
+                        int newIndex = (node.key == null)
+                                ? 0
+                                : Math.abs(node.key.hashCode()) % newCapacity;
                         if (newList[newIndex] == null) {
                             newList[newIndex] = new LinkedList<>();
                         }
