@@ -28,7 +28,7 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
         }
 
         for (Node<K, V> node : list[index]) {
-            if ((node.key == null && key == null) || (key.equals(node.key) && key != null)) {
+            if ((node.key == null && key == null) || (node.key != null && node.key.equals(key))) {
                 node.value = value;
                 return;
             }
@@ -47,7 +47,7 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
         }
 
         for (Node<K, V> node : list[index]) {
-            if ((node.key == null && key == null) || (node.key.equals(key) && key != null)) {
+            if ((node.key == null && key == null) || (node.key != null && node.key.equals(key))) {
                 return node.value;
             }
         }
