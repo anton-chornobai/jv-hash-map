@@ -4,8 +4,8 @@ import java.util.LinkedList;
 
 public class MyHashMap<K, V> implements MyMap<K, V> {
     private LinkedList<Node<K, V>>[] list;
-    private final static float LOAD_FACTOR = 0.75f;
-    private final static int INITIAL_CAPACITY = 16;
+    private static  final  float LOAD_FACTOR = 0.75f;
+    private static  final  int INITIAL_CAPACITY = 16;
 
     private int capacity;
     private int size = 0;
